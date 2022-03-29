@@ -110,6 +110,8 @@ private slots:
 
     void on_gamemodePushButton_clicked();
 
+    void on_coreListWidget_itemChanged(QListWidgetItem *item);
+
 private:
     Ui::MainWindow *ui;
 

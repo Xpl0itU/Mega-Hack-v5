@@ -6,6 +6,7 @@
 #define GAME_NAME "GeometryDash.exe"
 
 #define GLOBAL_STR "Global"
+#define CORE_STR   "Core"
 #define BYPASS_STR "Bypass"
 #define PLAYER_STR "Player"
 #define CREATOR_STR "Creator"
@@ -96,6 +97,7 @@ void MainWindow::refresh()
     JsonHelper::SetupListHacks(tr(":/hacks/creator.json"), CREATOR_STR, this->ui->creatorListWidget, this->hacks);
     JsonHelper::SetupListHacks(tr(":/hacks/player.json"), PLAYER_STR, this->ui->playerListWidget, this->hacks);
     JsonHelper::SetupListHacks(tr(":/hacks/bypass.json"), BYPASS_STR, this->ui->bypassListWidget, this->hacks);
+    JsonHelper::SetupListHacks(tr(":/hacks/core.json"), CORE_STR, this->ui->coreListWidget, this->hacks);
 
     JsonHelper::SetupSets(tr(":/hacks/player.json"), PLAYER_STR, this->ui->playerValueComboBox, this->sets);
     JsonHelper::SetupSets(tr(":/hacks/creator.json"), CREATOR_STR, this->ui->creatorValueComboBox, this->sets);
@@ -189,6 +191,8 @@ void MainWindow::ItemTriggered(Qt::CheckState checkstate, bool tristate, QString
                 lw = this->ui->globalListWidget;
             else if (group == BYPASS_STR)
                 lw = this->ui->bypassListWidget;
+            else if (group == CORE_STR)
+                lw = this->ui->coreListWidget;
             else if (group == CREATOR_STR)
                 lw = this->ui->creatorListWidget;
             else if (group == PLAYER_STR)
@@ -631,3 +635,9 @@ void MainWindow::on_searchSetValuePushButton_clicked()
 {
     this->SetTriggered(this->ui->searchValueComboBox, this->ui->searchValueDoubleSpinBox, QString(), true);
 }
+
+void MainWindow::on_coreListWidget_itemChanged(QListWidgetItem *item)
+{
+    this->ItemTriggered(item->checkState(), item->flags() & Qt::ItemIsUserTristate, item->text(), BYPASS_STR);
+}
+

@@ -38,6 +38,5 @@ QMAKE_LIBS += \
 
 RESOURCES += \
     res.qrc \
-    dlls/ \
     hacks/ \
 
