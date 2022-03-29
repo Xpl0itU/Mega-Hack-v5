@@ -3,8 +3,8 @@ QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-QMAKE_CXXFLAGS += -std=c++11 -fpermissive
 INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
+win32:LIBS += -luser32
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

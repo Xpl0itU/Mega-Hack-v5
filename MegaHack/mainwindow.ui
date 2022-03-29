@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
+    <width>548</width>
     <height>454</height>
    </rect>
   </property>
@@ -89,7 +89,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="otherTab">
        <attribute name="title">
@@ -125,13 +125,6 @@
             </property>
             <property name="text">
              <string>Miscellaneous:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="dllInjectPushButton">
-            <property name="text">
-             <string>Inject DLL</string>
             </property>
            </widget>
           </item>
@@ -179,124 +172,10 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="minimumSize">
-             <size>
-              <width>70</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Unrandomiser:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="uTypeComboBox"/>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="uDiffValSpinBox">
-            <property name="prefix">
-             <string>Offset:</string>
-            </property>
-            <property name="maximum">
-             <number>32767</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="uStartValSpinBox">
-            <property name="prefix">
-             <string>Start:</string>
-            </property>
-            <property name="maximum">
-             <number>32767</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="uApplyPushButton">
-            <property name="text">
-             <string>Apply</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_6"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="minimumSize">
-             <size>
-              <width>70</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>FPS Bypass:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="fpsBypassSpinBox">
-            <property name="prefix">
-             <string>FPS Cap:</string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>65535</number>
-            </property>
-            <property name="value">
-             <number>60</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="fpsBypassRecommendPushButton">
-            <property name="text">
-             <string>Recommend</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="fpsBypassPushButton">
-            <property name="text">
-             <string>Apply</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_4"/>
         </item>
         <item>
          <widget class="QListWidget" name="globalListWidget"/>
@@ -568,26 +447,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="iconRandomiserPushButton">
-            <property name="text">
-             <string>Rand Icons</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="dsrInjectPushButton">
-            <property name="text">
-             <string>Rand Death Sound</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="setOpacityPushButton">
             <property name="text">
              <string>Set Opacity</string>
@@ -768,7 +627,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>525</width>
+     <width>548</width>
      <height>21</height>
     </rect>
    </property>

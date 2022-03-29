@@ -3,12 +3,6 @@
 
 #include <QDebug>
 
-#define UNRANDOMISER_DLL "cosmiclove.dll"
-#define FRAME_BYPASS_DLL "hotmilk.dll"
-#define DEATH_SOUNDS_DLL "whitemagic.dll"
-#define RANDOM_ICONS_DLL "sorryforlovingyou.dll"
-#define SPEEEED_HACK_DLL "futurecandy.dll"
-
 #define GAME_NAME "GeometryDash.exe"
 
 #define GLOBAL_STR "Global"
@@ -35,8 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pixmap = QPixmap(":/icon_small.png").scaled(this->ui->bannerLabel->size(), Qt::KeepAspectRatio);
     this->ui->bannerLabel->setPixmap(pixmap);
     this->ui->bannerLabel->setFixedSize(pixmap.size());
-
-    this->ui->uTypeComboBox->addItems({"Add", "Sub"});
 
     this->ui->searchTreeWidget->setHeaderLabels({"Name", "Description"});
 
@@ -100,13 +92,13 @@ void MainWindow::refresh()
     this->hacks.clear();
     this->ui->searchTreeWidget->clear();
 
-    JsonHelper::SetupListHacks(tr(":/hacks/global.json").arg(this->dir), GLOBAL_STR, this->ui->globalListWidget, this->hacks);
-    JsonHelper::SetupListHacks(tr(":/hacks/creator.json").arg(this->dir), CREATOR_STR, this->ui->creatorListWidget, this->hacks);
-    JsonHelper::SetupListHacks(tr(":/hacks/player.json").arg(this->dir), PLAYER_STR, this->ui->playerListWidget, this->hacks);
-    JsonHelper::SetupListHacks(tr(":/hacks/bypass.json").arg(this->dir), BYPASS_STR, this->ui->bypassListWidget, this->hacks);
+    JsonHelper::SetupListHacks(tr(":/hacks/global.json"), GLOBAL_STR, this->ui->globalListWidget, this->hacks);
+    JsonHelper::SetupListHacks(tr(":/hacks/creator.json"), CREATOR_STR, this->ui->creatorListWidget, this->hacks);
+    JsonHelper::SetupListHacks(tr(":/hacks/player.json"), PLAYER_STR, this->ui->playerListWidget, this->hacks);
+    JsonHelper::SetupListHacks(tr(":/hacks/bypass.json"), BYPASS_STR, this->ui->bypassListWidget, this->hacks);
 
-    JsonHelper::SetupSets(tr(":/hacks/player.json").arg(this->dir), PLAYER_STR, this->ui->playerValueComboBox, this->sets);
-    JsonHelper::SetupSets(tr(":/hacks/creator.json").arg(this->dir), CREATOR_STR, this->ui->creatorValueComboBox, this->sets);
+    JsonHelper::SetupSets(tr(":/hacks/player.json"), PLAYER_STR, this->ui->playerValueComboBox, this->sets);
+    JsonHelper::SetupSets(tr(":/hacks/creator.json"), CREATOR_STR, this->ui->creatorValueComboBox, this->sets);
 
     this->SetupSearch();
 
@@ -185,9 +177,9 @@ void MainWindow::ItemTriggered(Qt::CheckState checkstate, bool tristate, QString
                 bytes = hexstr2bytes(checkstate ? opcode.on : opcode.off);
 
             uint32_t addr = this->gmd.GetModuleBase(opcode.lib.toUtf8().data()) + opcode.addr.toUInt(nullptr, 0);
-            uint32_t old = this->gmd.Protect(addr, bytes.size(), PAGE_EXECUTE_READWRITE);
-            this->gmd.Write(addr, bytes.data(), bytes.size());
-            this->gmd.Protect(addr, bytes.size(), old);
+            uint32_t old = this->gmd.Protect(addr, static_cast<size_t>(bytes.size()), PAGE_EXECUTE_READWRITE);
+            this->gmd.Write(addr, bytes.data(), static_cast<size_t>(bytes.size()));
+            this->gmd.Protect(addr, static_cast<size_t>(bytes.size()), old);
         }
 
         if (searched)
@@ -287,7 +279,7 @@ void MainWindow::GetSetValue(QComboBox *box, QDoubleSpinBox *input, QDoubleSpinB
         {
             input->setDecimals(3);
             output->setDecimals(3);
-            output->setValue(this->gmd.Read<float>(addr));
+            output->setValue(this->gmd.Read<double>(addr));
         }
     }
 }
@@ -328,18 +320,6 @@ void MainWindow::on_refreshPushButton_clicked()
 
 /* -------------------------------- GLOBAL -------------------------------- */
 
-void MainWindow::on_dllInjectPushButton_clicked()
-{
-    QString path = QFileDialog::getOpenFileName(this, "Choose DLL", "/home", "Dynamic-link Libraries (*.dll);;Executable (*.exe);;All Files (*.*)");
-    if (!path.isEmpty())
-    {
-        if (this->gmd.Inject(path.replace('/', '\\').toUtf8().data()))
-            QMessageBox::information(this, "Success", "DLL probably injected.");
-        else
-            QMessageBox::warning(this, "Failed", "DLL injection failed.");
-    }
-}
-
 void MainWindow::on_moduleInfoPushButton_clicked()
 {
     QStringList modules;
@@ -357,73 +337,14 @@ void MainWindow::on_moduleInfoPushButton_clicked()
     char *path(this->gmd.FilePath(module));
 
     if (GetModuleInformation(this->gmd.GetHandle(), reinterpret_cast<HMODULE>(this->gmd.GetModuleBase(module)), &mi, sizeof(MODULEINFO)) && mi.lpBaseOfDll != nullptr)
-        QMessageBox::information(this, "Module Info", tr("File Path: %0\nBase: 0x%1\nImage Size: 0x%2\nEntry Point: 0x%3").arg(path, QString::number(reinterpret_cast<uint32_t>(mi.lpBaseOfDll), 16), QString::number(mi.SizeOfImage, 16), QString::number(reinterpret_cast<uint32_t>(mi.EntryPoint), 16)));
+        QMessageBox::information(this, "Module Info", tr("File Path: %0\nBase: 0x%1\nImage Size: 0x%2\nEntry Point: 0x%3").arg(path, QString::number(reinterpret_cast<uint64_t>(mi.lpBaseOfDll), 16), QString::number(mi.SizeOfImage, 16), QString::number(reinterpret_cast<uint64_t>(mi.EntryPoint), 16)));
     else
         QMessageBox::warning(this, "Error", "Failed to get module info.");
 
     delete[] path;
 }
 
-void MainWindow::on_uApplyPushButton_clicked()
-{
-    if (!this->gmd.GetModuleBase(UNRANDOMISER_DLL))
-    {
-        if (!this->gmd.Inject(tr("%0\\dlls\\%1").arg(this->dir, UNRANDOMISER_DLL).toLocal8Bit().data()))
-        {
-            QMessageBox::warning(this, "Error", "Failed to inject DLL.");
-            return;
-        }
-        Sleep(100); //bit of time for dll to load.
-        this->sym_mng.Refresh();
-    }
 
-    auto module_syms = this->sym_mng.FromModule(UNRANDOMISER_DLL);
-    auto it = std::find_if(module_syms.begin(), module_syms.end(), [](const WinSymbol& a) -> bool { return a.name == "hooker"; });
-
-    if (it != module_syms.end())
-    {
-        std::vector<int> data = { this->ui->uStartValSpinBox->value(), this->ui->uDiffValSpinBox->value(), this->ui->uTypeComboBox->currentIndex() };
-
-        for (const auto &sym : this->sym_mng.FromName("rand"))
-            data.push_back(sym.address);
-        data.push_back(0); //zero-value so the dll knows when to stop reading.
-
-        uint32_t alloc = this->gmd.Allocate(0x1000);
-
-        if (this->gmd.Write(alloc, &data[0], data.size() * sizeof(int)) && this->gmd.NewThread(it->address, reinterpret_cast<void*>(alloc)))
-            Sleep(50); //bit of time for the thread to start & finish.
-        else
-            QMessageBox::warning(this, "Error", "Failed updating settings.");
-
-        this->gmd.Free(alloc); //freeing the memory, we don't want to cause memory leak in another process!
-    }
-    else QMessageBox::warning(this, "Error", "Failed to find hooker function.");
-}
-
-void MainWindow::on_fpsBypassPushButton_clicked()
-{
-    if (!this->gmd.GetModuleBase(FRAME_BYPASS_DLL))
-    {
-        if (!this->gmd.Inject(tr("%0\\dlls\\%1").arg(this->dir, FRAME_BYPASS_DLL).toLocal8Bit().data()))
-        {
-            QMessageBox::warning(this, "Error", "Failed to inject DLL.");
-            return;
-        }
-        Sleep(100); //bit of time for dll to load.
-    }
-
-    if (!this->gmd.Write(this->gmd.GetModuleBase(FRAME_BYPASS_DLL) + 0x13168 /*address of new anim interval*/, 1.0f / this->ui->fpsBypassSpinBox->value()))
-        QMessageBox::warning(this, "Error", "Failed to write memory.");
-}
-
-void MainWindow::on_fpsBypassRecommendPushButton_clicked()
-{
-    DEVMODE dm;
-    if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm))
-        this->ui->fpsBypassSpinBox->setValue(dm.dmDisplayFrequency * 4);
-    else
-        this->ui->fpsBypassSpinBox->setValue(240); //assuming 60hz
-}
 
 void MainWindow::on_anticheatPushButton_clicked()
 {
@@ -454,7 +375,7 @@ void MainWindow::on_labelTextPushButton_clicked()
         }
         else
         {
-            if ((addr = this->gmd.Allocate(text.size())) && this->gmd.Write(addr, text.toLocal8Bit().data(), text.size()))
+            if ((addr = this->gmd.Allocate(static_cast<size_t>(text.size()))) && this->gmd.Write(addr, text.toLocal8Bit().data(), static_cast<size_t>(text.size())))
             {
                 this->gmd.Write(cclbmf_create, "\x68\x00\x00\x00\x00\xE8\x67\x00\x00\x00\x83\xC4\x18\x5D\xC3", 15);
                 this->gmd.Write(cclbmf_create + 1, addr);
@@ -515,42 +436,6 @@ void MainWindow::on_playerColourToolButton_clicked()
     }
 }
 
-void MainWindow::on_dsrInjectPushButton_clicked()
-{
-    if (!this->gmd.GetModuleBase(DEATH_SOUNDS_DLL))
-    {
-        if (!this->gmd.Inject(tr("%0\\dlls\\%1").arg(this->dir, DEATH_SOUNDS_DLL).toLocal8Bit().data()))
-            QMessageBox::warning(this, "Error", "Failed to inject DLL.");
-    }
-    else QMessageBox::information(this, "Injector", "DLL already injected.");
-
-    QDesktopServices::openUrl(QUrl::fromLocalFile(tr("%0\\Resources\\deathSounds").arg(tr(this->gmd.FilePath()).replace(GAME_NAME, ""))));
-}
-
-void MainWindow::on_iconRandomiserPushButton_clicked()
-{
-    if (!this->gmd.GetModuleBase(RANDOM_ICONS_DLL))
-    {
-        if (!this->gmd.Inject(tr("%0\\dlls\\%1").arg(this->dir, RANDOM_ICONS_DLL).toLocal8Bit().data()))
-        {
-            QMessageBox::warning(this, "Error", "Failed to inject DLL.");
-            return;
-        }
-        Sleep(100); //bit of time for dll to load
-        this->sym_mng.Refresh();
-    }
-
-    auto module_syms = this->sym_mng.FromModule(RANDOM_ICONS_DLL);
-    auto it = std::find_if(module_syms.begin(), module_syms.end(), [](const WinSymbol& a) -> bool { return a.name == "toggle"; });
-
-    if (it != module_syms.end())
-    {
-        if (!this->gmd.NewThread(it->address, reinterpret_cast<void*>(!this->ui->iconRandomiserPushButton->isChecked())))
-            QMessageBox::warning(this, "Error", "Failed to create thread.");
-    }
-    else QMessageBox::warning(this, "Error", "Failed to find toggle function.");
-}
-
 void MainWindow::on_lvlPassPushButton_clicked()
 {
     uint32_t addr = this->gmd.GetPointerAddress({0x003222D0, 0x164, 0x488, 0x2C4}, GAME_NAME);
@@ -576,11 +461,11 @@ void MainWindow::on_setOpacityPushButton_clicked()
     static float x = 0;
 
     bool ok;
-    x = QInputDialog::getDouble(this, "Set Opacity", "Enter new level opacity (-1 for default).", x * 100, -1, 100, 0, &ok) / 100;
+    x = static_cast<float>(QInputDialog::getDouble(this, "Set Opacity", "Enter new level opacity (-1 for default).", static_cast<double>(x * 100), -1, 100, 0, &ok) / 100);
 
     if (ok)
     {
-        if (x == -0.01f)
+        if (x <= -0.01f)
             this->gmd.Write(this->gmd.GetBase() + 0xE5414, "\xF3\x0F\x10\x88\xF4\x00\x00\x00", 8);
         else
         {
@@ -626,7 +511,7 @@ void MainWindow::on_gamemodePushButton_clicked()
         this->gmd.Write(addr, "\x00\x00\x00\x00\x00\x00", 6);
         int choice = gamemode.indexOf(res);
         if (choice)
-            this->gmd.Write(addr + choice - 1, '\x01');
+            this->gmd.Write(addr + static_cast<unsigned>(choice) - 1, '\x01');
     }
 }
 
@@ -655,10 +540,10 @@ void MainWindow::on_editorColourToolButton_clicked()
 void MainWindow::on_multiscalePushButton_clicked()
 {
     bool ok;
-    float f = QInputDialog::getDouble(this, "MultiScaler", "Enter new relative scale", 0, std::numeric_limits<double>::min(), std::numeric_limits<double>::max(), 2, &ok, Qt::WindowCloseButtonHint);
+    float f = static_cast<float>(QInputDialog::getDouble(this, "MultiScaler", "Enter new relative scale", 0, std::numeric_limits<double>::min(), std::numeric_limits<double>::max(), 2, &ok, Qt::WindowCloseButtonHint));
     if (!ok) return;
 
-    if (f != 0)
+    if (static_cast<int>(f) != 0)
     {
         std::vector<uint32_t> selected; //pointers to 'GameObject's
         float avgx = 0, avgy = 0;

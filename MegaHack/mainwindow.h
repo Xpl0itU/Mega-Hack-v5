@@ -72,21 +72,9 @@ private slots:
 
     void on_refreshPushButton_clicked();
 
-    void on_dllInjectPushButton_clicked();
-
     void on_moduleInfoPushButton_clicked();
 
-    void on_uApplyPushButton_clicked();
-
-    void on_fpsBypassPushButton_clicked();
-
-    void on_fpsBypassRecommendPushButton_clicked();
-
-    void on_dsrInjectPushButton_clicked();
-
     void on_playerSetValuePushButton_clicked();
-
-    void on_iconRandomiserPushButton_clicked();
 
     void on_creatorSetValuePushButton_clicked();
 

@@ -2,6 +2,7 @@
 #define HANDLER_H
 
 #include <windows.h>
+#include <WinUser.h>
 #include <psapi.h>
 #include <cstdint>
 
