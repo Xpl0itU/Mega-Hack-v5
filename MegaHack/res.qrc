@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>color.png</file>
+        <file>icon_small.png</file>
+        <file>banner.png</file>
+        <file>dlls/cosmiclove.dll</file>
+        <file>dlls/hotmilk.dll</file>
+        <file>dlls/sorryforlovingyou.dll</file>
+        <file>dlls/whitemagic.dll</file>
+        <file>hacks/bypass.json</file>
+        <file>hacks/creator.json</file>
+        <file>hacks/global.json</file>
+        <file>hacks/player.json</file>
+    </qresource>
+</RCC>
