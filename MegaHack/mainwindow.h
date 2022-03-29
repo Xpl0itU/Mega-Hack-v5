@@ -62,8 +62,6 @@ private slots:
 
     void updateValues();
 
-    void checkUpdate();
-
     void on_creatorListWidget_itemChanged(QListWidgetItem *item);
 
     void on_playerListWidget_itemChanged(QListWidgetItem *item);
