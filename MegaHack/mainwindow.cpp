@@ -348,18 +348,6 @@ void MainWindow::on_moduleInfoPushButton_clicked()
     delete[] path;
 }
 
-
-
-void MainWindow::on_anticheatPushButton_clicked()
-{
-    for (auto i = 0; i < this->ui->globalListWidget->count(); ++i)
-    {
-        QListWidgetItem *item = this->ui->globalListWidget->item(i);
-        if (item->text().startsWith("AntiCheat:"))
-            item->setCheckState(Qt::Checked);
-    }
-}
-
 void MainWindow::on_labelTextPushButton_clicked()
 {
     static QString prev_text = QString();
@@ -638,6 +626,6 @@ void MainWindow::on_searchSetValuePushButton_clicked()
 
 void MainWindow::on_coreListWidget_itemChanged(QListWidgetItem *item)
 {
-    this->ItemTriggered(item->checkState(), item->flags() & Qt::ItemIsUserTristate, item->text(), BYPASS_STR);
+    this->ItemTriggered(item->checkState(), item->flags() & Qt::ItemIsUserTristate, item->text(), CORE_STR);
 }
 

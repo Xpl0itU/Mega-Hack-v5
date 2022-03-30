@@ -9,15 +9,6 @@
 	},
 	
 	{
-	  "name": "Icons",
-	  "desc": "Unlocks all icons.",
-	  "opcodes": [
-	    {"addr": "0xC50A8", "on": "B0 01 90 90 90", "off": "E8 7A CD 19 00"},
-		{"addr": "0xC54BA", "on": "B0 01 90 90 90", "off": "E8 68 C9 19 00"}
-	  ]
-	},
-	
-	{
 	  "name": "Text Length",
 	  "desc": "Allows for unlimited text length in text inputs.",
 	  "opcodes": [

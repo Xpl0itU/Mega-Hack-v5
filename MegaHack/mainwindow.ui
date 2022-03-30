@@ -89,7 +89,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="otherTab">
        <attribute name="title">
@@ -107,6 +107,21 @@
          <widget class="QTextBrowser" name="infoTextBrowser"/>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="coreTab">
+       <attribute name="title">
+        <string>Core</string>
+       </attribute>
+       <widget class="QListWidget" name="coreListWidget">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>508</width>
+          <height>277</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="genericPage">
        <attribute name="title">
@@ -132,13 +147,6 @@
            <widget class="QPushButton" name="moduleInfoPushButton">
             <property name="text">
              <string>Module Info</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="anticheatPushButton">
-            <property name="text">
-             <string>No AntiCheat</string>
             </property>
            </widget>
           </item>
@@ -181,21 +189,6 @@
          <widget class="QListWidget" name="globalListWidget"/>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="coreTab">
-       <attribute name="title">
-        <string>Core</string>
-       </attribute>
-       <widget class="QListWidget" name="coreListWidget">
-        <property name="geometry">
-         <rect>
-          <x>9</x>
-          <y>9</y>
-          <width>508</width>
-          <height>277</height>
-         </rect>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="bypassTab">
        <attribute name="title">

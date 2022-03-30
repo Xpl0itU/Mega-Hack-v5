@@ -3,6 +3,7 @@ QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+QMAKE_CXXFLAGS += -fpermissive
 INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
 win32:LIBS += -luser32
 

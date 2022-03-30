@@ -92,8 +92,6 @@ private slots:
 
     void on_editorColourToolButton_clicked();
 
-    void on_anticheatPushButton_clicked();
-
     void on_accountUnlinkerPushButton_clicked();
 
     void on_transitionPushButton_clicked();
