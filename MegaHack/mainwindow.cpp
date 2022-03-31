@@ -628,3 +628,10 @@ void MainWindow::on_coreListWidget_itemChanged(QListWidgetItem *item)
 {
     this->ItemTriggered(item->checkState(), item->flags() & Qt::ItemIsUserTristate, item->text(), CORE_STR);
 }
+
+void MainWindow::on_fpsBypassButton_clicked()
+{
+    QProcess *process = new QProcess(this);
+    QString file = ":/exes/icetea.exe";
+    process->start(file);
+}
