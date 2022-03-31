@@ -8,5 +8,14 @@
         <file>hacks/global.json</file>
         <file>hacks/player.json</file>
         <file>hacks/core.json</file>
+        <file>handler.h</file>
+        <file>jsonhelper.h</file>
+        <file>main.cpp</file>
+        <file>mainwindow.cpp</file>
+        <file>mainwindow.h</file>
+        <file>sha1.cpp</file>
+        <file>sha1.h</file>
+        <file>viviz.cpp</file>
+        <file>viviz.h</file>
     </qresource>
 </RCC>

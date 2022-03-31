@@ -14,14 +14,11 @@ win32:LIBS += -luser32
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    handler.cpp \
     sha1.cpp \
-    viviz.cpp \
-    jsonhelper.cpp
+    viviz.cpp
 
 HEADERS += \
         mainwindow.h \
-    handler.h \
     sha1.h \
     viviz.h \
     jsonhelper.h

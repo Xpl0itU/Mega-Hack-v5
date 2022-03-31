@@ -115,10 +115,23 @@
         <property name="geometry">
          <rect>
           <x>9</x>
-          <y>9</y>
+          <y>45</y>
           <width>508</width>
-          <height>277</height>
+          <height>241</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="fpsBypassButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>FPS Bypass</string>
         </property>
        </widget>
       </widget>
