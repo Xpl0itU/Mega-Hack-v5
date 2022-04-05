@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QFile>
 
 #define GAME_NAME "GeometryDash.exe"
 
@@ -631,7 +632,8 @@ void MainWindow::on_coreListWidget_itemChanged(QListWidgetItem *item)
 
 void MainWindow::on_fpsBypassButton_clicked()
 {
-    QProcess *process = new QProcess(this);
-    QString file = ":/exes/icetea.exe";
-    process->start(file);
+    QUuid uuid = QUuid::createUuid();
+    QString tempFileFullPath = QDir::tempPath() + "/" + qApp->applicationName().replace(" ", "") + "_" + uuid.toString(QUuid::WithoutBraces) + ".exe";
+    QFile::copy(":/exes/icetea.exe" , tempFileFullPath);
+    QDesktopServices::openUrl(QUrl("file:///"+tempFileFullPath,QUrl::TolerantMode));
 }
